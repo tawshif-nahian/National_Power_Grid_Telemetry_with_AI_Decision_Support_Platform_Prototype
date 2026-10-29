@@ -1,0 +1,33 @@
+# Project Glossary (Plain-English Dictionary)
+
+- **API (Application Programming Interface):** A messenger that lets two computer programs talk to each other and ask for or send information.
+- **API Key / Secret Key:** A private digital password that proves your website has permission to talk to an outside service like a database or AI.
+- **Backend:** The hidden "back office" of a website where data is stored, protected, and processed out of sight of visitors.
+- **Component:** A reusable building block of a webpage, like a navigation bar, a button, or a single metric card.
+- **CSV (Comma-Separated Values):** A simple spreadsheet file format where numbers and words are separated by commas so programs like Excel can open them.
+- **Database:** An organized digital filing cabinet that stores all your information in tables (rows and columns) so it is never lost when you close the page.
+- **Database Schema:** The blueprint or floor plan of your database that defines every table name, every column name, and what kind of information goes inside.
+- **Dependencies:** Ready-made code packages built by other programmers that your project borrows so you do not have to build charts, icons, or database connections from scratch.
+- **Environment File (`.env`):** A private settings file kept only on your computer that holds secret keys and connection addresses so they are not written directly inside your public code.
+- **Fallback Data:** Backup sample numbers built into the website so the screens still look full and work even if the internet or database is disconnected.
+- **Frontend:** The visible part of the website that runs in your web browser—every button, chart, color, and page you can see and click.
+- **Git Commit:** A saved snapshot of your entire project at a specific moment in time that you can always return to if something goes wrong.
+- **Gitignore (`.gitignore`):** A checklist of private or bulky files (like secret keys and downloaded packages) that tells Git not to upload them when sharing your project.
+- **Hardcoded:** Written directly into the code as fixed text instead of being loaded safely from a separate settings file or database.
+- **Linter (ESLint):** An automatic proofreader that scans your code for typos or bad habits before they cause bugs.
+- **Placeholder Page:** A simple, nearly empty webpage put in place so a menu button works today while we wait to build the real contents later.
+- **PostgreSQL:** A popular, heavy-duty type of database used by businesses and governments to store structured table data safely.
+- **React:** A popular toolkit for building interactive website screens out of smaller, reusable pieces called components.
+- **Realtime Subscription (CDC / Change Data Capture):** A live "walkie-talkie" connection where the database automatically pushes new numbers to the website the instant they arrive, without you refreshing the page.
+- **Recharts:** A chart-drawing library for React that turns rows of numbers into visual line and area graphs.
+- **Row-Level Security (RLS):** Safety rules inside the database that control who is allowed to read, add, or edit specific rows of data.
+- **Service File:** A dedicated helper file whose only job is to talk to an outside system (like the database or an AI API) and hand the results back to your screens.
+- **Simulator:** A small computer script that imitates real power plant sensors by inventing realistic readings and sending them to the database every few seconds.
+- **SQL (Structured Query Language):** The standard language used to create tables and ask questions inside a database.
+- **State:** The website's short-term memory—for example, remembering which page you are currently viewing or which power plant button you clicked last.
+- **Supabase:** An online service that gives your project a ready-to-use PostgreSQL database, an automatic API, live data updates, and user login without needing to build your own server.
+- **Tailwind CSS:** A styling tool that lets us control colors, spacing, and fonts using short descriptive labels right on our webpage elements.
+- **Telemetry:** Automatic live measurements (like megawatts, voltage, and frequency) sent continuously from remote equipment such as a power plant.
+- **UI (User Interface):** Everything a person sees and interacts with on a screen, including menus, buttons, tables, and charts.
+- **Vite:** The fast starter motor for your frontend that bundles your code together and shows changes instantly in your browser while we work.
+
