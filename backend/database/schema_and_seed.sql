@@ -292,3 +292,4 @@ INSERT INTO public.historical_records (
 (CURRENT_DATE - INTERVAL '2 days', 1660.8, 37120.0, 71.0, 25.0, 4.0, 50.00, 0.0484, 686.5, 'Zero Frequency Excursion Day'),
 (CURRENT_DATE - INTERVAL '1 day',  1742.0, 39150.0, 71.8, 24.3, 3.9, 49.99, 0.0481, 691.2, 'Monthly Peak Demand Record')
 ON CONFLICT (record_date) DO NOTHING;
+

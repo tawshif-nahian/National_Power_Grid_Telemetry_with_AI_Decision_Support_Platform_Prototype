@@ -120,3 +120,4 @@ while True:
         print("Telemetry insert error:", e)
 
     time.sleep(5)
+

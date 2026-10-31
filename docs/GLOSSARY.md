@@ -31,3 +31,11 @@
 - **UI (User Interface):** Everything a person sees and interacts with on a screen, including menus, buttons, tables, and charts.
 - **Vite:** The fast starter motor for your frontend that bundles your code together and shows changes instantly in your browser while we work.
 
+- **Custom Hook:** A reusable helper function in React (always starting with the word `use`, like `useGridTelemetry`) that manages short-term memory and live updates for your screens.
+- **React Router:** A navigation tool for React that gives each screen its own web address (like `/dashboard` or `/login`) so you can click between pages or use the browser's Back button.
+- **Route:** A single rule connecting a web address (like `/dashboard`) to the specific screen file (like `DashboardPage.jsx`) that should appear when you visit that address.
+- **Stub:** A temporary stand-in piece of code that holds a spot in the structure today until the real feature is built in a later phase.
+- **Authentication (Auth):** The process of verifying who someone is (for example, checking their email and password when they log in).
+- **Authorization / Role:** The permission level assigned to a logged-in person (such as `'user'` vs. `'admin'`) that decides what actions they are allowed to take.
+- **Protected Route:** A security checkpoint component in React Router that checks if a visitor is an authorized admin before showing a private screen.
+- **UUID (Universally Unique Identifier):** A long, randomly generated 36-character ID code (like `123e4567-e89b-...`) that Supabase gives to each user account so no two accounts ever share the same ID.

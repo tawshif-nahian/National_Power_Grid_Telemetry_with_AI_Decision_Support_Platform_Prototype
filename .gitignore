@@ -4,9 +4,11 @@ __pycache__/
 .venv/
 venv/
 
-# Environment variables
+# Environment variables (secret keys — never shared in Git)
 .env
 .env.local
+frontend/.env
+backend/simulator/.env
 
 # Build outputs
 dist/
@@ -16,4 +18,3 @@ build/
 *.log
 .DS_Store
 Thumbs.db
-
