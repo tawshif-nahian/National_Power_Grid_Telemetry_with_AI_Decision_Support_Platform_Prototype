@@ -14,6 +14,7 @@ import ProtectedRoute, {
 import ChatbotWidget from "./components/chatbot/ChatbotWidget";
 import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/DashboardPage";
+import PlantDetailPage from "./pages/PlantDetailPage";
 import LoginPage from "./pages/LoginPage";
 import ReportReviewPage from "./pages/ReportReviewPage";
 import CostModellingPage from "./pages/CostModellingPage";
@@ -23,13 +24,17 @@ export default function App() {
   const grid = useGridTelemetry();
 
   return (
-    <div className="min-h-screen bg-[#F7F7F5] text-slate-800 font-sans flex flex-col">
+    <div className="min-h-screen bg-bg text-text-primary font-sans flex flex-col">
       <Header currentFreq={grid.currentFreq} />
 
       <main className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<HomePage {...grid} />} />
           <Route path="/dashboard" element={<DashboardPage {...grid} />} />
+          <Route
+            path="/dashboard/:plantId"
+            element={<PlantDetailPage {...grid} />}
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/admin/report-review"

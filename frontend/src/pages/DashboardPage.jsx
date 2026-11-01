@@ -1,195 +1,167 @@
 /**
- * What it does: Renders the real-time supervisory Dashboard page showing station selector, AI advisory, 8 telemetry cards, and live chart.
- * Who uses it: Rendered by `frontend/src/App.jsx` at the `/dashboard` address.
- * What it talks to: Receives live telemetry state and actions from `useGridTelemetry` hook and renders `CleanMetricCard`.
+ * What it does: Renders the `/dashboard` plant list with 3 large clickable zig-zag cards (Payra, Titas, Sirajganj).
+ * Who uses it: Rendered by `frontend/src/App.jsx` at `/dashboard`.
+ * What it talks to: Calls `useDashboardPlants` hook in `features/dashboard/hooks/` and navigates to `/dashboard/:plantId`.
  */
 
-import { Download, Cpu } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
-import CleanMetricCard from "../components/ui/CleanMetricCard";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight, MapPin } from "lucide-react";
+import { useDashboardPlants } from "../features/dashboard/hooks/useDashboardPlants";
+import Reveal from "../components/ui/Reveal";
 
 export default function DashboardPage({
   plants,
-  selectedPlantId,
-  selectedPlant,
-  activeTelemetry,
-  deltaF,
-  history,
-  aiAdvisory,
-  isExporting,
+  telemetry,
+  inventory,
   handleSelectPlant,
-  exportTelemetryCSV,
 }) {
+  const navigate = useNavigate();
+  const plantCards = useDashboardPlants({ plants, telemetry, inventory });
+
+  const openPlantDetail = (plantId) => {
+    if (handleSelectPlant) {
+      handleSelectPlant(plantId);
+    }
+    navigate(`/dashboard/${plantId}`);
+  };
+
   return (
-    <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
-      {/* Station Selector Bar */}
-      <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-wrap items-center justify-between gap-4 shadow-2xs">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-bold uppercase text-slate-400 mr-1">
-            Select Facility:
+    <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
+      <Reveal maxTranslateY={80}>
+        <div className="space-y-2 border-b border-border pb-6">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-accent block">
+            SUPERVISORY TELEMETRY DIRECTORY • 3 MONITORED STATIONS
           </span>
-          {plants.map((plant) => (
-            <button
-              key={plant.id}
-              onClick={() => handleSelectPlant(plant.id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
-                selectedPlantId === plant.id
-                  ? "bg-[#1D4ED8] text-white"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              {plant.name}
-            </button>
-          ))}
+          <h1 className="text-2xl sm:text-4xl font-heading font-bold text-text-primary">
+            Monitored Power Generation Facilities
+          </h1>
+          <p className="text-xs sm:text-sm text-text-secondary max-w-2xl">
+            Select any power plant below to inspect its dedicated 5-second SCADA
+            telemetry stream, thermodynamic efficiency, busbar voltage, and
+            interactive charts.
+          </p>
         </div>
+      </Reveal>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => exportTelemetryCSV(selectedPlant, 60)}
-            disabled={isExporting}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-lg cursor-pointer"
-          >
-            <Download className="h-3.5 w-3.5 text-[#1D4ED8]" />
-            {isExporting ? "Exporting..." : "Export CSV"}
-          </button>
-          <span className="text-xs font-mono text-slate-500">
-            {activeTelemetry
-              ? new Date(activeTelemetry.timestamp).toLocaleTimeString()
-              : "50.00 Hz Sync"}
-          </span>
-        </div>
-      </div>
+      <div className="space-y-10 sm:space-y-14">
+        {plantCards.map((plant, idx) => {
+          const isReversed = idx % 2 === 1;
+          return (
+            <Reveal key={plant.id} maxTranslateY={110}>
+              <article
+                onClick={() => openPlantDetail(plant.id)}
+                className="bg-surface border border-border hover:border-accent rounded-2xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center transition-colors cursor-pointer group"
+              >
+                {/* Aerial Image Column */}
+                <div
+                  className={`lg:col-span-5 ${
+                    isReversed ? "lg:order-2" : "lg:order-1"
+                  }`}
+                >
+                  <Reveal maxTranslateY={80} delayOffsetPx={30}>
+                    <div className="rounded-xl overflow-hidden border border-border bg-bg">
+                      <img
+                        src={plant.image}
+                        alt={`${plant.name} aerial view`}
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                  </Reveal>
+                </div>
 
-      {/* Minimalist AI Decision Banner */}
-      {aiAdvisory && (
-        <div className="bg-white border-l-4 border-l-[#1D4ED8] border border-slate-200 p-4 rounded-xl flex flex-wrap items-center justify-between gap-4 shadow-2xs">
-          <div className="space-y-0.5 max-w-3xl">
-            <div className="flex items-center gap-2">
-              <Cpu className="h-4 w-4 text-[#1D4ED8]" />
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-900">
-                AI Supervisory Advisory — {aiAdvisory.title}
-              </span>
-            </div>
-            <p className="text-xs text-slate-600">
-              {aiAdvisory.recommendation}
-            </p>
-          </div>
-          <span className="text-xs font-mono font-semibold px-3 py-1.5 rounded bg-blue-50 text-[#1D4ED8] border border-blue-200">
-            Action: {aiAdvisory.action}
-          </span>
-        </div>
-      )}
+                {/* Plant Info, Status Badge, Stat Boxes & Button Column */}
+                <div
+                  className={`lg:col-span-7 space-y-6 ${
+                    isReversed ? "lg:order-1" : "lg:order-2"
+                  }`}
+                >
+                  <Reveal maxTranslateY={70} delayOffsetPx={20}>
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-xs font-mono text-text-secondary flex items-center gap-2">
+                          <span
+                            className={`w-2.5 h-2.5 rounded-full ${plant.seriesDotClass}`}
+                          />
+                          {plant.plant_code} • {plant.fuel_type}
+                        </span>
 
-      {/* 8 Clean Telemetry Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <CleanMetricCard
-          label="Active Power Output"
-          value={
-            activeTelemetry?.power_output_mw ??
-            (selectedPlant.capacity_mw * 0.89).toFixed(1)
-          }
-          unit="MW"
-        />
-        <CleanMetricCard
-          label="Substation Bus Voltage"
-          value={activeTelemetry?.voltage_kv ?? selectedPlant.substation_kv}
-          unit="kV"
-        />
-        <CleanMetricCard
-          label="Synchronous Frequency"
-          value={activeTelemetry?.frequency_hz ?? "50.00"}
-          unit={`Hz (Δf ${deltaF})`}
-        />
-        <CleanMetricCard
-          label="Operating Temperature"
-          value={
-            activeTelemetry?.temperature_c ??
-            (selectedPlant.plant_code === "SRJ-SOLAR" ? "41.8" : "539.5")
-          }
-          unit="°C"
-        />
-        <CleanMetricCard
-          label="Fuel Consumption Rate"
-          value={
-            activeTelemetry?.fuel_consumption_rate ??
-            (selectedPlant.plant_code === "SRJ-SOLAR" ? "0.0" : "428.4")
-          }
-          unit={selectedPlant.plant_code === "SRJ-SOLAR" ? "Zero" : "Unit/h"}
-        />
-        <CleanMetricCard
-          label="Thermal / PV Efficiency"
-          value={
-            activeTelemetry?.efficiency_pct ??
-            selectedPlant.design_efficiency_pct
-          }
-          unit="%"
-        />
-        <CleanMetricCard
-          label="Plant Load Factor (PLF)"
-          value={activeTelemetry?.grid_load_pct ?? "89.4"}
-          unit="%"
-        />
-        <CleanMetricCard
-          label="Carbon Intensity"
-          value={
-            activeTelemetry?.carbon_intensity_kg ??
-            selectedPlant.carbon_factor_kg_mwh
-          }
-          unit="kg CO₂/MWh"
-        />
-      </div>
+                        <span
+                          className={`inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase px-3 py-1 rounded-full border ${plant.statusInfo.badgeClass}`}
+                        >
+                          <span
+                            className={`w-2 h-2 rounded-full ${plant.statusInfo.dotClass}`}
+                          />
+                          {plant.statusInfo.label}
+                        </span>
+                      </div>
 
-      {/* Real-Time Power Trajectory Chart */}
-      <div className="bg-white border border-slate-200 p-6 rounded-xl shadow-2xs">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="text-sm font-bold text-slate-900">
-              Real-Time Generation Output Trajectory (MW) — {selectedPlant.name}
-            </h3>
-            <p className="text-xs text-slate-500">
-              Live 5-second time-series stream from PostgreSQL table{" "}
-              <code className="text-[#1D4ED8]">{selectedPlant.table_name}</code>
-            </p>
-          </div>
-        </div>
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={history}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-              <XAxis dataKey="time" stroke="#64748B" fontSize={11} />
-              <YAxis
-                stroke="#64748B"
-                domain={["auto", "auto"]}
-                fontSize={11}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "#CBD5E1",
-                  color: "#0F172A",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="power"
-                stroke="#1D4ED8"
-                strokeWidth={2.5}
-                dot={{ fill: "#1D4ED8", r: 3 }}
-                isAnimationActive={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+                      <h2 className="text-2xl sm:text-3xl font-heading font-bold text-text-primary group-hover:text-accent transition-colors">
+                        {plant.name}
+                      </h2>
+
+                      <p className="text-xs text-text-secondary flex items-center gap-1.5">
+                        <MapPin className="h-3.5 w-3.5 text-accent shrink-0" />
+                        <span>
+                          {plant.location} • {plant.region} • Operator:{" "}
+                          {plant.operator}
+                        </span>
+                      </p>
+                    </div>
+                  </Reveal>
+
+                  {/* 4 Plant-Specific Stat Boxes */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    {plant.stats.map((st, stIdx) => (
+                      <Reveal
+                        key={st.label}
+                        maxTranslateY={60}
+                        delayOffsetPx={40 + stIdx * 18}
+                      >
+                        <div
+                          className={`p-3.5 rounded-xl border h-full ${
+                            st.highlight
+                              ? "bg-bg border-accent"
+                              : "bg-bg border-border"
+                          }`}
+                        >
+                          <span className="text-[10px] uppercase tracking-wider text-text-secondary font-semibold block">
+                            {st.label}
+                          </span>
+                          <span
+                            className={`text-sm sm:text-base font-mono font-bold mt-1.5 block ${
+                              st.highlight
+                                ? "text-accent"
+                                : "text-text-primary"
+                            }`}
+                          >
+                            {st.value}
+                          </span>
+                        </div>
+                      </Reveal>
+                    ))}
+                  </div>
+
+                  <Reveal maxTranslateY={50} delayOffsetPx={85}>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openPlantDetail(plant.id);
+                        }}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent-hover text-white text-xs font-heading font-bold tracking-wider uppercase rounded-lg transition-colors cursor-pointer"
+                      >
+                        <span>View Plant Details</span>
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </Reveal>
+                </div>
+              </article>
+            </Reveal>
+          );
+        })}
       </div>
     </div>
   );
 }
-

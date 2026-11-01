@@ -39,3 +39,8 @@
 - **Authorization / Role:** The permission level assigned to a logged-in person (such as `'user'` vs. `'admin'`) that decides what actions they are allowed to take.
 - **Protected Route:** A security checkpoint component in React Router that checks if a visitor is an authorized admin before showing a private screen.
 - **UUID (Universally Unique Identifier):** A long, randomly generated 36-character ID code (like `123e4567-e89b-...`) that Supabase gives to each user account so no two accounts ever share the same ID.
+- **CSS Variables:** Named placeholders in a stylesheet (like `--color-accent`) that store a single color or font value so the entire website can share and update it from one line.
+- **Design Tokens:** Official names given to colors, fonts, and spacing (such as `surface`, `accent`, or `series-thermal`) so code never uses raw color codes directly.
+- **Prefers-Reduced-Motion:** A browser accessibility setting that tells websites to turn off movement animations for visitors who are sensitive to motion.
+- **Dynamic Route Parameter (`:plantId`):** A placeholder in a web address (like `/dashboard/:plantId`) that lets a single page file display different power plants depending on which ID number is in the address bar (such as `/dashboard/1` or `/dashboard/2`).
+- **SVG (Scalable Vector Graphics):** A crisp illustration format drawn with math shapes instead of pixels so it stays sharp at any screen size.

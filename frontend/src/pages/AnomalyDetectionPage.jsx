@@ -11,14 +11,21 @@
  * ============================================================================
  */
 
+import Reveal from "../components/ui/Reveal";
+
 export default function AnomalyDetectionPage() {
   return (
     <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-12">
-      <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-2xs">
-        <h1 className="text-xl font-bold text-slate-900">Anomaly Detection</h1>
-        <p className="text-sm text-slate-500 mt-2">Content to be defined</p>
-      </div>
+      <Reveal>
+        <div className="bg-surface border border-border rounded-xl p-8">
+          <h1 className="text-2xl font-heading font-bold text-text-primary">
+            Anomaly Detection
+          </h1>
+          <p className="text-sm text-text-secondary mt-2">
+            Content to be defined
+          </p>
+        </div>
+      </Reveal>
     </div>
   );
 }
-

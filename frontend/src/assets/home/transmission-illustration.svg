@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" fill="none">
+  <rect width="480" height="300" rx="16" fill="#EDE8DF"/>
+  <rect x="24" y="24" width="432" height="252" rx="12" fill="#F5F1E9" stroke="#E7E0D4" stroke-width="2"/>
+  <!-- Transmission Pylons -->
+  <path d="M110 224 L132 92 L154 224 M116 130 L148 130 M112 166 L152 166" stroke="#34383A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M326 224 L348 92 L370 224 M332 130 L364 130 M328 166 L368 166" stroke="#34383A" stroke-width="3" stroke-linecap="round"/>
+  <!-- High Voltage Bus Lines -->
+  <path d="M148 130 Q240 164 332 130" stroke="#A83212" stroke-width="2.5" fill="none"/>
+  <path d="M152 166 Q240 198 328 166" stroke="#B97839" stroke-width="2" fill="none"/>
+  <!-- 50 Hz Sine Pulse Badge -->
+  <rect x="196" y="84" width="88" height="32" rx="6" fill="#287653"/>
+  <text x="213" y="104" fill="#FFFFFF" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="700">50.00 Hz</text>
+  <line x1="56" y1="224" x2="424" y2="224" stroke="#191713" stroke-width="2"/>
+  <text x="56" y="56" fill="#777168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5">SUBSTATION BUSBAR &amp; FREQUENCY SYNC</text>
+</svg>
+

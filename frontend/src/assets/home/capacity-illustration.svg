@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" fill="none">
+  <rect width="480" height="300" rx="16" fill="#EDE8DF"/>
+  <rect x="24" y="24" width="432" height="252" rx="12" fill="#F5F1E9" stroke="#E7E0D4" stroke-width="2"/>
+  <!-- Thermal Station Silhouette -->
+  <rect x="72" y="130" width="76" height="94" rx="4" fill="#34383A"/>
+  <rect x="88" y="82" width="18" height="48" fill="#34383A"/>
+  <rect x="116" y="92" width="18" height="38" fill="#34383A"/>
+  <!-- Combined Cycle Gas Silhouette -->
+  <rect x="196" y="146" width="88" height="78" rx="4" fill="#B97839"/>
+  <circle cx="240" cy="185" r="22" fill="#F5F1E9"/>
+  <circle cx="240" cy="185" r="10" fill="#B97839"/>
+  <!-- Solar PV Array Silhouette -->
+  <polygon points="326,204 398,164 414,224 316,224" fill="#D49A32"/>
+  <circle cx="378" cy="112" r="20" fill="#D49A32"/>
+  <!-- Baseline -->
+  <line x1="52" y1="224" x2="428" y2="224" stroke="#191713" stroke-width="2"/>
+  <text x="56" y="56" fill="#777168" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5">INSTALLED CAPACITY • 3 MONITORED PLANTS</text>
+</svg>
+

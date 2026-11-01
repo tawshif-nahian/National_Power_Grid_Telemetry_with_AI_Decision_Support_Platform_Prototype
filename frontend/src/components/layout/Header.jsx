@@ -1,5 +1,5 @@
 /**
- * What it does: Renders the top navigation bar, showing only the menu items allowed for the current visitor or admin.
+ * What it does: Renders the top navigation bar with the "National Power Telemetry" brand flush left and all menu items on a single line.
  * Who uses it: Imported by `frontend/src/App.jsx`.
  * What it talks to: Reads `NAV_ITEMS` from `frontend/src/config/navigation.js` and auth state from `useAuth` hook (never talks to Supabase).
  */
@@ -39,43 +39,46 @@ export default function Header({ currentFreq = 50.0 }) {
   };
 
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
-        {/* Official Emblem & Two-Tone Title (NPP Style) */}
+    <header className="bg-surface border-b border-border sticky top-0 z-50">
+      <div className="w-full px-3 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+        {/* Brand moved further left with updated title and visitor-appropriate tagline */}
         <div
           onClick={() => handleNavClick("/")}
-          className="flex items-center gap-3.5 cursor-pointer shrink-0"
+          className="flex items-center gap-3 cursor-pointer shrink-0"
         >
-          <div className="w-11 h-11 rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center shadow-2xs">
-            <Zap className="h-6 w-6 text-[#1D4ED8] fill-[#F59E0B]" />
+          <div className="w-10 h-10 rounded-full bg-bg border border-border flex items-center justify-center shrink-0">
+            <Zap className="h-5 w-5 text-accent" />
           </div>
           <div>
-            <div className="flex items-baseline gap-1.5 tracking-tight">
-              <span className="text-xl sm:text-2xl font-black text-[#1D4ED8]">
-                NATIONAL
+            <div className="flex items-baseline gap-1.5 tracking-tight font-heading whitespace-nowrap">
+              <span className="text-lg sm:text-xl font-extrabold text-text-primary">
+                NATIONAL POWER
               </span>
-              <span className="text-xl sm:text-2xl font-black text-[#F59E0B]">
-                POWER PORTAL
+              <span className="text-lg sm:text-xl font-extrabold text-accent">
+                TELEMETRY
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 font-medium tracking-wide">
-              Remote Monitoring, Cost Modeling & AI Decision Support
+            <p className="text-[10px] sm:text-[11px] text-text-secondary font-medium tracking-wide whitespace-nowrap">
+              Real-Time Generation, Capacity & Grid Frequency Monitoring
             </p>
           </div>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+        {/* Desktop Navigation Links — Strictly single line (whitespace-nowrap) */}
+        <nav className="hidden md:flex items-center gap-3 lg:gap-5 xl:gap-6 shrink-0">
           {visibleItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path);
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.path)}
-                className={`text-xs lg:text-[13px] font-bold tracking-wider py-2 border-b-2 transition-colors cursor-pointer ${
+                className={`text-[11px] lg:text-xs font-heading font-bold tracking-wider whitespace-nowrap py-2 border-b-2 transition-colors cursor-pointer ${
                   isActive
-                    ? "text-[#1D4ED8] border-[#F59E0B]"
-                    : "text-slate-700 border-transparent hover:text-[#1D4ED8]"
+                    ? "text-accent border-accent"
+                    : "text-text-primary border-transparent hover:text-accent"
                 }`}
               >
                 {item.label}
@@ -83,23 +86,22 @@ export default function Header({ currentFreq = 50.0 }) {
             );
           })}
 
-          {/* Admin Name & Logout Dropdown (replaces Login when logged in as admin) */}
           {isAdmin && (
-            <div className="relative">
+            <div className="relative shrink-0">
               <button
                 onClick={() => setAdminDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-2 px-3.5 py-2 text-xs font-bold tracking-wider uppercase bg-amber-50 text-slate-900 border-2 border-[#F59E0B] rounded-lg cursor-pointer hover:bg-amber-100 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] lg:text-xs font-heading font-bold tracking-wider uppercase whitespace-nowrap bg-bg text-text-primary border border-accent rounded-lg cursor-pointer hover:bg-accent hover:text-white transition-colors"
               >
-                <UserCheck className="h-3.5 w-3.5 text-[#1D4ED8]" />
-                <span>{adminName}</span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-600" />
+                <UserCheck className="h-3.5 w-3.5 shrink-0" />
+                <span className="whitespace-nowrap">{adminName}</span>
+                <ChevronDown className="h-3.5 w-3.5 shrink-0" />
               </button>
 
               {adminDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 z-50">
+                <div className="absolute right-0 mt-2 w-44 bg-surface border border-border rounded-xl py-1.5 z-50">
                   <button
                     onClick={handleLogout}
-                    className="w-full px-4 py-2 text-left text-xs font-semibold text-rose-700 hover:bg-rose-50 flex items-center gap-2 cursor-pointer"
+                    className="w-full px-4 py-2 text-left text-xs font-semibold text-status-critical hover:bg-bg flex items-center gap-2 cursor-pointer whitespace-nowrap"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     Logout
@@ -111,15 +113,15 @@ export default function Header({ currentFreq = 50.0 }) {
         </nav>
 
         {/* Right Live Frequency Indicator & Mobile Hamburger Button */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden xl:flex items-center gap-1.5 text-[11px] font-mono text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono text-text-primary bg-bg border border-border px-2.5 py-1 rounded whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-status-online animate-pulse shrink-0" />
             {currentFreq.toFixed(2)} Hz
           </div>
 
           <button
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="md:hidden p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer"
+            className="md:hidden p-2 rounded-lg border border-border text-text-primary hover:bg-bg cursor-pointer"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? (
@@ -133,17 +135,20 @@ export default function Header({ currentFreq = 50.0 }) {
 
       {/* Collapsible Mobile Hamburger Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-slate-50 border-t border-slate-200 px-4 py-3 space-y-2">
+        <div className="md:hidden bg-bg border-t border-border px-4 py-3 space-y-2">
           {visibleItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path);
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.path)}
-                className={`block w-full text-left px-3 py-2 text-xs font-bold rounded-lg cursor-pointer ${
+                className={`block w-full text-left px-3 py-2 text-xs font-heading font-bold rounded-lg cursor-pointer whitespace-nowrap ${
                   isActive
-                    ? "bg-[#1D4ED8] text-white"
-                    : "text-slate-700 hover:bg-slate-200/70"
+                    ? "bg-accent text-white"
+                    : "text-text-primary hover:bg-surface"
                 }`}
               >
                 {item.label}
@@ -152,14 +157,14 @@ export default function Header({ currentFreq = 50.0 }) {
           })}
 
           {isAdmin && (
-            <div className="pt-2 mt-2 border-t border-slate-200 flex items-center justify-between px-3 py-1.5">
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <UserCheck className="h-3.5 w-3.5 text-[#1D4ED8]" />
+            <div className="pt-2 mt-2 border-t border-border flex items-center justify-between px-3 py-1.5">
+              <span className="text-xs font-bold text-text-primary flex items-center gap-1.5 whitespace-nowrap">
+                <UserCheck className="h-3.5 w-3.5 text-accent" />
                 {adminName}
               </span>
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 bg-rose-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 cursor-pointer"
+                className="px-3 py-1.5 bg-status-critical text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 Logout

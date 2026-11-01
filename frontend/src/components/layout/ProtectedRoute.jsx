@@ -6,27 +6,32 @@
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Reveal from "../ui/Reveal";
 
 export function NotFoundScreen() {
   const navigate = useNavigate();
 
   return (
     <div className="max-w-lg w-full mx-auto px-4 sm:px-6 py-20 text-center">
-      <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-2xs space-y-4">
-        <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
-          404
-        </span>
-        <h1 className="text-xl font-bold text-slate-900">Page not found</h1>
-        <p className="text-xs text-slate-500">
-          The page you are looking for does not exist or may have been moved.
-        </p>
-        <button
-          onClick={() => navigate("/")}
-          className="px-4 py-2 bg-[#1D4ED8] text-white rounded-lg text-xs font-semibold cursor-pointer"
-        >
-          Return to Home
-        </button>
-      </div>
+      <Reveal>
+        <div className="bg-surface border border-border rounded-xl p-8 space-y-4">
+          <span className="text-xs font-mono uppercase tracking-widest text-text-secondary">
+            404
+          </span>
+          <h1 className="text-xl font-heading font-bold text-text-primary">
+            Page not found
+          </h1>
+          <p className="text-xs text-text-secondary">
+            The page you are looking for does not exist or may have been moved.
+          </p>
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+          >
+            Return to Home
+          </button>
+        </div>
+      </Reveal>
     </div>
   );
 }
@@ -37,7 +42,7 @@ export default function ProtectedRoute({ children }) {
   if (loading) {
     return (
       <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 py-20 flex justify-center">
-        <div className="w-6 h-6 border-2 border-slate-300 border-t-[#1D4ED8] rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-border border-t-accent rounded-full animate-spin" />
       </div>
     );
   }
@@ -48,4 +53,3 @@ export default function ProtectedRoute({ children }) {
 
   return children;
 }
-
