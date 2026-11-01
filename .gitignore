@@ -6,9 +6,17 @@ venv/
 
 # Environment variables (secret keys — never shared in Git)
 .env
-.env.local
+.env.*
+!.env.example
 frontend/.env
+frontend/.env.*
+!frontend/.env.example
 backend/simulator/.env
+backend/simulator/.env.*
+!backend/simulator/.env.example
+backend/supabase/.env
+backend/supabase/.env.*
+!backend/supabase/.env.example
 
 # Build outputs
 dist/

@@ -1,14 +1,43 @@
+"""
+What it does: Physics-grounded Python telemetry simulator that sends fake live power plant readings every 5 seconds.
+Who uses it: Run in a terminal (`python backend/simulator/generator.py`) while testing the website.
+What it talks to: Reads `SUPABASE_URL` and `SUPABASE_KEY` from `backend/simulator/.env` and inserts into Supabase tables.
+"""
+
 import math
 import os
+from pathlib import Path
 import random
+import sys
 import time
 from datetime import datetime, timezone
 from supabase import create_client, Client
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://vikiwhsbgltrtcsiiaxt.supabase.co")
-SUPABASE_KEY = os.getenv(
-    "SUPABASE_KEY", "sb_publishable_YqO-JCk13Zpm_w7vGyoR6A_LtQHtRVS"
-)
+
+def load_simulator_env():
+    """Loads key=value pairs from backend/simulator/.env if not already set in the environment."""
+    env_path = Path(__file__).resolve().parent / ".env"
+    if not env_path.exists():
+        return
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, val = line.split("=", 1)
+        os.environ.setdefault(key.strip(), val.strip().strip('"').strip("'"))
+
+
+load_simulator_env()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print(
+        "ERROR: Missing SUPABASE_URL or SUPABASE_KEY in backend/simulator/.env.\n"
+        "Please copy backend/simulator/.env.example to backend/simulator/.env and fill in your keys."
+    )
+    sys.exit(1)
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -120,4 +149,3 @@ while True:
         print("Telemetry insert error:", e)
 
     time.sleep(5)
-
