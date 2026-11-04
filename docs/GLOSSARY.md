@@ -44,3 +44,8 @@
 - **Prefers-Reduced-Motion:** A browser accessibility setting that tells websites to turn off movement animations for visitors who are sensitive to motion.
 - **Dynamic Route Parameter (`:plantId`):** A placeholder in a web address (like `/dashboard/:plantId`) that lets a single page file display different power plants depending on which ID number is in the address bar (such as `/dashboard/1` or `/dashboard/2`).
 - **SVG (Scalable Vector Graphics):** A crisp illustration format drawn with math shapes instead of pixels so it stays sharp at any screen size.
+- **Levelized Tariff / LCOE (Levelized Cost of Electricity):** The single average price per kilowatt-hour (like `8.43 Tk/kWh`) that a power plant must charge over its 25-year lifetime to pay back all construction loans, fuel, maintenance, and investor returns.
+- **CAPEX (Capital Expenditure):** The upfront one-time money spent to buy land, build a power plant, and install its turbines and boilers before it starts selling electricity (for Payra, `186.84 Billion Tk`).
+- **Amortization & Grace Period:** A loan repayment schedule where the power plant pays only interest during the first few years (*Grace Period*, Years 1–4) and then pays back the borrowed principal in equal yearly slices (Years 5–15).
+- **Plant Factor (PLF / Capacity Factor):** The percentage of a power plant's maximum possible output that it actually generates over a month or year (for example, `85%` in summer vs. `58.9%` in winter).
+- **Net Heat Rate:** A measure of how much heat energy from burning fuel (in kilocalories, `Kcal`) a power plant needs to produce `1 kilowatt-hour (kWh)` of electricity—lower numbers mean a more efficient plant.
